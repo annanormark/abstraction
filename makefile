@@ -21,3 +21,7 @@ main: ny2.c
 
 run: all
 	./db /Users/Anna/ioopm14/uppgifter/fas0/sprint1/abstraktion/SWE.db
+
+test: unittests.c treefunctions.c treefunctions.h
+	$(CC) $(FLAGS) unittests.c treefunctions.c -o t -lcunit
+	./t

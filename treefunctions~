@@ -31,10 +31,8 @@ Tree makeTree(char *keybuf, char *valuebuf, Tree newNode){
     Tree newNode = malloc(sizeof(struct node));  
     newNode->key = malloc(strlen(keybuf) + 1);
     strcpy(newNode->key, keybuf);
-    puts(newNode->key);
     newNode->value = malloc(strlen(valuebuf) + 1);
     strcpy(newNode->value, valuebuf);
-    puts(newNode->value);
     newNode->left = NULL;
     newNode->right = NULL;
     return newNode;
@@ -42,12 +40,10 @@ Tree makeTree(char *keybuf, char *valuebuf, Tree newNode){
   else if (strcmp(keybuf, newNode->key) > 0){
     //if the key is smaller than the key you want to insert
      newNode->right = makeTree(keybuf, valuebuf, newNode->right);
-     puts("höger");
   } 
   else if(strcmp(keybuf, newNode->key) < 0){
     //if the key is bigger than the key you wnat to insert
      newNode->left = makeTree(keybuf, valuebuf, newNode->left);
-     puts("vänster");
   }
   return newNode;
   
@@ -92,7 +88,7 @@ Tree findKey(Tree cursor, char *buffer){
 /*
 ändra så att det blir en valbuf och keybuf så värderna sätts i mainfunktionen
 */
-Tree updateValue(char *buffer, char *valbuf, Tree cursor){
+Tree updateValue(char *keybuf, char *valbuf, Tree cursor){
   //searches for the entry it wants to update, as long as it hasn't reached the end of the tree
   free(cursor->value);
   cursor->value = malloc(strlen(buffer) + 1);
