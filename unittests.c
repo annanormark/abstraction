@@ -3,6 +3,7 @@
 #include "CUnit/CUnit.h"
 #include "treefunctions.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 
 int init_suite_2(void){
@@ -21,18 +22,10 @@ void testmakeTree(void){
   key = "B";
   val = "2";
   test = makeTree(key, val, test);
-  CU_ASSERT_EQUAL(test->key, key);
-  // CU_ASSERT_TRUE(test->value == val);
-  /* key = "C";
-  val = "1";
-  test = makeTree(key, val, test);
-  CU_ASSERT(test->right->key == key);
-  CU_ASSERT(test->right->value == val);
-  key = "A";
-  val = "0";
-  test = makeTree(key, val, test);
-  CU_ASSERT(test->left->key == key);
-  CU_ASSERT(test->left->value == val);*/
+  puts(test->key);
+  puts(test->value);
+  CU_ASSERT(*test->key == *key);
+  CU_ASSERT(strcmp(test->value,val) == 0);
 }
 
 void testfindKey(void){
@@ -42,10 +35,8 @@ void testfindKey(void){
   test = makeTree(key, val, test);
   Tree temp = NULL;
   temp = findKey(test, key);
-  CU_ASSERT_TRUE(temp->key == key);
-  key = "B";
-  temp = findKey(test, key);
-  CU_ASSERT_TRUE(temp == NULL);
+  CU_ASSERT_TRUE(*temp->key == *key);
+  CU_ASSERT_TRUE(*temp->value == *val);
 }
 
 void testupdateValue(void){
@@ -55,7 +46,7 @@ void testupdateValue(void){
   test = makeTree(key, val, test);
   val = "28";
   test = updateValue(key, val, test);
-  CU_ASSERT(test->value == val);
+  CU_ASSERT(strcmp("28", test->value) == 0);
 }
 
 void testinsertEntry(void){
@@ -66,8 +57,8 @@ void testinsertEntry(void){
   key = "B";
   val = "3";
   test = insertEntry(key, val, test);
-  CU_ASSERT(test->right->key == "B");
-  CU_ASSERT(test->right->value == "3");
+  CU_ASSERT(*test->right->key == *key);
+  CU_ASSERT(*test->right->value == *val);
 }
 
 void testmaxValue(void){
@@ -77,11 +68,9 @@ void testmaxValue(void){
   test = makeTree(key, val, test);
   key = "B";
   test = makeTree(key, val, test);
-  key = "C";
-  test = makeTree(key, val, test);
   Tree temp = NULL;
   temp = maxValue(test);
-  CU_ASSERT(temp->key == key);
+  CU_ASSERT(*temp->key == *key);
 }
 
 void testminValue(void){
@@ -89,13 +78,11 @@ void testminValue(void){
   key = "C";
   val = "1";
   test = makeTree(key, val, test);
-  key = "B";
-  test = makeTree(key, val, test);
   key = "A";
   test = makeTree(key, val, test);
   Tree temp = NULL;
   temp = minValue(test);
-  CU_ASSERT(temp->key == key);
+  CU_ASSERT(*temp->key == *key);
 }
 
 void testdelete(void){
@@ -107,15 +94,6 @@ void testdelete(void){
   test = makeTree(key, val, test);
   delete(key, test);
   CU_ASSERT(test->right == NULL); 
-}
-
-void testFreeTree(void){
-  Tree test = NULL;
-  key = "A";
-  val = "1";
-  test = makeTree(key, val, test);
-  FreeTree(test);
-  CU_ASSERT(test == NULL);
 }
 
 int main()
@@ -140,8 +118,7 @@ int main()
     (NULL == CU_add_test(pSuite2, "test of insertEntry()", testinsertEntry)) ||
     (NULL == CU_add_test(pSuite2, "test of maxValue()", testmaxValue)) ||
     (NULL == CU_add_test(pSuite2, "test of minValue()", testminValue)) ||
-    (NULL == CU_add_test(pSuite2, "test of delete()", testdelete)) ||
-    (NULL == CU_add_test(pSuite2, "test of FreeTree()", testFreeTree))
+    (NULL == CU_add_test(pSuite2, "test of delete()", testdelete)) 
   )
     {
       CU_cleanup_registry();
